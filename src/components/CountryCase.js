@@ -11,8 +11,10 @@ const CountryCase = ({ country }) => {
   if (loading) {
     return <Loader />;
   }
+
+  let cdata = [];
   if (stats) {
-    const cdata = [
+    cdata = [
       {
         header: "Confirmed",
         description: stats.confirmed.value
@@ -26,20 +28,23 @@ const CountryCase = ({ country }) => {
         description: stats.deaths.value
       }
     ];
-    return (
-      <React.Fragment>
-        <Divider hidden />
-        <Header size="large" textAlign="center" color="green">
-          Country Case: {titleCase(country)}
-          <Header.Subheader>
-            Last Updated: {formatDate(stats.lastUpdate)}
-          </Header.Subheader>
-        </Header>
-        <Card.Group centered items={cdata} />
-      </React.Fragment>
-    );
   }
-  return <p>Fetching the data</p>;
+  return (
+    <React.Fragment>
+      {stats && (
+        <React.Fragment>
+          <Divider hidden />
+          <Header size="large" textAlign="center" color="green">
+            Country Case: {titleCase(country)}
+            <Header.Subheader>
+              Last Updated: {formatDate(stats.lastUpdate)}
+            </Header.Subheader>
+          </Header>
+          <Card.Group centered items={cdata} />
+        </React.Fragment>
+      )}
+    </React.Fragment>
+  );
 };
 
 export default CountryCase;
