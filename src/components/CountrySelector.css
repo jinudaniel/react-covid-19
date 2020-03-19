@@ -1,0 +1,18 @@
+.country-selector {
+  max-width: 40rem;
+  margin-left: 30rem;
+}
+
+@media (max-width: 1000px) {
+  .country-selector {
+    margin-left: 15rem;
+    margin-right: 3rem;
+  }
+}
+
+@media (max-width: 600px) {
+  .country-selector {
+    margin-left: 2rem;
+    margin-right: 2rem;
+  }
+}
