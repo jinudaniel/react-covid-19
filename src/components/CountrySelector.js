@@ -11,47 +11,34 @@ const CountrySelector = () => {
   const { stats } = useStats("https://covid19.mathdro.id/api/countries");
   let countryOptions = [];
 
-  // Exlude the below countries as these are nor part of Flag component of semantic UI.
-  const countriesToExclude = [
-    "ss",
-    "sx",
-    "mf",
-    "bl",
-    "xk",
-    "je",
-    "im",
-    "gg",
-    "cw",
-    "bq",
-    "ag",
-    "aq"
-  ];
   if (stats) {
-    countryOptions = Object.entries(stats.countries).map(([value, key]) => {
-      if (countriesToExclude.includes(key.toLowerCase())) {
+    countryOptions = Object.entries(stats.countries).map(([key, value]) => {
+      if (value.iso2 !== undefined && value.name !== undefined) {
+        return {
+          key: value.iso2.toLowerCase(),
+          value: value.name.toLowerCase(),
+          flag: value.iso2.toLowerCase(),
+          text: value.name
+        };
+      } else {
         return {};
       }
-      return {
-        key: key.toLowerCase(),
-        value: value.toLowerCase(),
-        flag: key.toLowerCase(),
-        text: value
-      };
     });
   }
 
   const filteredCountryOptions = countryOptions.reduce((acc, current) => {
-    const x = acc.find(item => item.key === current.key);
-    if (!x) {
-      return acc.concat([current]);
-    } else {
-      return acc;
+    if (current.key !== {} && acc !== {}) {
+      const x = acc.find(item => item.key === current.key);
+      if (!x) {
+        return acc.concat([current]);
+      } else {
+        return acc;
+      }
     }
   }, []);
 
   const onChangeHandler = (e, { value }) => {
     setCountry(value);
-    console.log(country);
   };
 
   return (
